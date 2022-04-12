@@ -1,59 +1,152 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
+#include<bits/stdc++.h>
+#include<iostream>
 using namespace std;
-struct node {
-	int key;
-	struct node *left, *right;
+
+struct Node{
+	int data;
+	Node * left;
+	Node * right;
 };
 
-struct node* newNode(int item)
-{
-	struct node* temp
-		= (struct node*)malloc(sizeof(struct node));
-	temp->key = item;
-	temp->left = temp->right = NULL;
-	return temp;
+Node *newnode(int data){
+	
+	Node * root=new Node();
+	root->data=data;
+	root->left=root->right=NULL;
+	
+	return root;
 }
 
-void inorder(struct node* root)
-{
-	if (root != NULL) {
-		inorder(root->left);
-		cout<< root->key <<" ";
-		inorder(root->right);
+Node * insert(Node * root,int data){
+	Node * newNode= new Node();
+	
+	if(root==NULL){
+		root=newnode(data);
+	}
+	else if (data<root->data){
+		root->left=insert(root->left,data);
+	}
+	else if(data>root->data){
+		root->right=insert(root->right,data);
+	}
+	return root;
+}
+void inorder(Node * root){
+	
+	if(root!=NULL){
+		
+inorder(root->left);
+cout<<root->data<<" ";
+inorder(root->right);
+
+	}
+}
+void postorder(Node * root){
+	
+	if(root!=NULL){
+		
+postorder(root->left);
+postorder(root->right);
+cout<<root->data<<" ";
+
+
+	}
+}
+void preorder(Node * root){
+	
+	if(root!=NULL){
+		
+cout<<root->data<<" ";
+preorder(root->left);
+preorder(root->right);
+
 	}
 }
 
-//{struct node*}data type  {insert}function name {(struct node* node, int key)} function paramenter
+int minroot(Node*root){
+	Node * temp=root;
+	while(temp->left!=NULL){
+		temp=temp->left;
+	}
+	cout<<"Minimum Value in BST is : "<<temp->data<<"\n";
+	
+	return temp->data;
+}
 
-struct node* insert(struct node* node, int key)
-{
-	if (node == NULL)
-		return newNode(key);
+int maxroot(Node*root){
+	Node * temp=root;
+	while(temp->right!=NULL){
+		temp=temp->right;
+	}
+	cout<<"Maximum Value in BST is : "<<temp->data<<"\n";
+	
+	return temp->data;
 
-	if (key < node->key)
-		node->left = insert(node->left, key);
-	else if (key > node->key)
-		node->right = insert(node->right, key);
+}
 
-	return node;
+int height(Node*root){
+	if(root==NULL) return -1;
+	
+return max(height(root->left),height(root->right))+1;
+
+}
+void LOT(Node *root){
+	if(root==NULL) return;
+	
+	queue<Node *> Q;
+	Q.push(root);//pusing address of root
+	while(!Q.empty()){
+		Node *current =Q.front();
+		cout<<current->data<<" ";
+		if(current->left!=NULL) Q.push(current->left);
+		if(current->right!=NULL) Q.push(current->right);
+		Q.pop();
+	}	
+}
+bool IsBSTorNOT(Node*root,int minv,int maxv){
+	if(root==NULL) return true;
+	
+	if(root->data<minv && root->data>maxv && IsBSTorNOT(root->left,minv,root->data) && IsBSTorNOT(root->right,root->data,maxv)){
+		return true;
+	}
+	else false;
 }
 
 int main()
-{
-    int n;
-	struct node* root = NULL;
- 
-  while(1)
-  {  cin>>n;
-    if(n>0){ 
-      root=insert(root,n);
-    }
-    else break;
-  }
-  cout<<"Tree values are: \n";
-	inorder(root);
-	return 0;
+{ int h=0;
+	Node * root=NULL;
+	
+	root=insert(root,5);
+	root=insert(root,10);
+	root=insert(root,20);
+	root=insert(root,8);
+	root=insert(root,12);
+	root=insert(root,17);
+	root=insert(root,25);
+	root=insert(root,7);
+	root=insert(root,9);
+	
+cout<<"INORDER\n";
+inorder(root);
+cout<<"\nPREORDER\n";
+preorder(root);
+cout<<"\nPOSTORDER\n";
+postorder(root);
+cout<<"\n\n\FINDING MIN AND MAX OF THE BST\n";
+minroot(root);maxroot(root);
+cout<<"\n\n\FINDING THE HEIGHT OF BST\n";
+h=height(root);
+cout<<h;
+cout<<"\n\n\FINDING THE LEVEL ORDER TRAVERSAL OF BST\n";
+LOT(root);
+cout<<"\n\n\FINDING THE GIVEN TREE IS A BST OR NOT\n";
+int ans= IsBSTorNOT(root,minroot(root),maxroot(root));
+
+if(ans==false){cout<<"\n\nTHE GIVEN TREE IS A BST";
+}else {
+	cout<<"\n\nTHE GIVEN TREE IS NOT A BST";
 }
 
+return 0;
+
+}
