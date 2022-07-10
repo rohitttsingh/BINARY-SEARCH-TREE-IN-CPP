@@ -83,6 +83,52 @@ int maxroot(Node*root){
 	return temp->data;
 
 }
+Node* minValueNode(struct Node* node)
+{
+     Node* current = node;
+ 
+    /* loop down to find the leftmost leaf */
+    while (current && current->left != NULL)
+        current = current->left;
+ 
+    return current;
+}
+Node* deleteNode(Node* root, int key)
+{
+
+    if (root == NULL)
+        return root;
+
+    if (key < root->data)
+        root->left = deleteNode(root->left, key);
+ 
+
+    else if (key > root->data)
+        root->right = deleteNode(root->right, key);
+ 
+  
+    else {
+
+        if (root->left==NULL and root->right==NULL)
+            return NULL;
+       
+        else if (root->left == NULL) {
+             Node* temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL) {
+             Node* temp = root->left;
+            free(root);
+            return temp;
+        }
+ 
+        Node* temp = minValueNode(root->right);
+         root->data = temp->data;
+         root->right = deleteNode(root->right, temp->data);
+    }
+    return root;
+}
 
 int height(Node*root){
 	if(root==NULL) return -1;
@@ -146,7 +192,11 @@ if(ans==false){cout<<"\n\nTHE GIVEN TREE IS A BST";
 }else {
 	cout<<"\n\nTHE GIVEN TREE IS NOT A BST";
 }
+cout<<endl;
+root=deleteNode(root, 32);
+    cout<<endl;
+ inorder(root);
 
-return 0;
+ return 0;
 
 }
