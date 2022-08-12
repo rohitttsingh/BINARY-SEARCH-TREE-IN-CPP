@@ -17,7 +17,6 @@ Node *create(int data){
 }
 
 Node * insert(Node * root,int data){
-    Node * newNode= new Node();
     
     if(root==NULL){
         root=create(data);
@@ -30,6 +29,7 @@ Node * insert(Node * root,int data){
     }
     return root;
 }
+
 void inorder(Node * root){
     
     if(root!=NULL){
@@ -82,11 +82,10 @@ int maxroot(Node*root){
     return temp->data;
 
 }
-Node* minValueNode(struct Node* node)
+Node* minValueNode( Node* node)
 {
      Node* current = node;
  
-    /* loop down to find the leftmost leaf */
     while (current && current->left != NULL)
         current = current->left;
  
@@ -108,21 +107,22 @@ Node* deleteNode(Node* root, int key)
   
     else {
 
-        if (root->left==NULL and root->right==NULL)
+        if (root->left==NULL && root->right==NULL)
             return NULL;
        
         else if (root->left == NULL) {
-             Node* temp = root->right;
+            Node* temp = root->right;
             free(root);
             return temp;
         }
+        
         else if (root->right == NULL) {
-             Node* temp = root->left;
+            Node* temp = root->left;
             free(root);
             return temp;
         }
  
-        Node* temp = minValueNode(root->right);
+         Node* temp = minValueNode(root->right);
          root->data = temp->data;
          root->right = deleteNode(root->right, temp->data);
     }
@@ -158,7 +158,7 @@ bool IsBSTorNOT(Node*root,int minv,int maxv){
 }
 
 int main()
-{ int h=0;
+{   int h=0;
     Node * root=NULL;
     
     root=insert(root,5);
@@ -171,32 +171,32 @@ int main()
     root=insert(root,7);
     root=insert(root,9);
     
-cout<<"INORDER\n";
-inorder(root);
-cout<<"\nPREORDER\n";
-preorder(root);
-cout<<"\nPOSTORDER\n";
-postorder(root);
-cout<<"\n\nFINDING MIN AND MAX OF THE BST\n";
-minroot(root);maxroot(root);
-cout<<"\n\nFINDING THE HEIGHT OF BST\n";
-h=height(root);
-cout<<h;
-cout<<"\n\nFINDING THE LEVEL ORDER TRAVERSAL OF BST\n";
-LOT(root);
+    cout<<"INORDER\n";
+    inorder(root);
+    cout<<"\nPREORDER\n";
+    preorder(root);
+    cout<<"\nPOSTORDER\n";
+    postorder(root);
+    cout<<"\n\nFINDING MIN AND MAX OF THE BST\n\n";
+    minroot(root);maxroot(root);
+    cout<<"\n\nFINDING THE HEIGHT OF BST\n";
+    h=height(root);
+    cout<<h;
+    cout<<"\n\nFINDING THE LEVEL ORDER TRAVERSAL OF BST\n";
+    LOT(root);
 
-    int ans= IsBSTorNOT(root,minroot(root),maxroot(root));
+        int ans= IsBSTorNOT(root,minroot(root),maxroot(root));
 
-if(ans==false){cout<<"\n\nTHE GIVEN TREE IS A BST";
-}else {
-    cout<<"\n\nTHE GIVEN TREE IS NOT A BST";
-}
-cout<<endl;
-    cout<<" DELETE NODE 5";
-
-root=deleteNode(root, 5);
+    if(ans==false){cout<<"\n\nTHE GIVEN TREE IS A BST";
+    }else {
+        cout<<"\n\nTHE GIVEN TREE IS NOT A BST";
+    }
     cout<<endl;
- inorder(root);
+        cout<<"DELETE NODE 5";
+
+    root=deleteNode(root, 5);
+        cout<<endl;
+     inorder(root);
 
  return 0;
 
