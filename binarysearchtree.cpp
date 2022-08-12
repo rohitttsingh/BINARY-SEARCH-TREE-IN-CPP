@@ -1,6 +1,4 @@
 #include <c++/v1/bits/stdc++.h>
-
-#include<iostream>
 using namespace std;
 
 struct Node{
@@ -9,7 +7,7 @@ struct Node{
     Node * right;
 };
 
-Node *newnode(int data){
+Node *create(int data){
     
     Node * root=new Node();
     root->data=data;
@@ -22,7 +20,7 @@ Node * insert(Node * root,int data){
     Node * newNode= new Node();
     
     if(root==NULL){
-        root=newnode(data);
+        root=create(data);
     }
     else if (data<root->data){
         root->left=insert(root->left,data);
@@ -186,8 +184,8 @@ h=height(root);
 cout<<h;
 cout<<"\n\nFINDING THE LEVEL ORDER TRAVERSAL OF BST\n";
 LOT(root);
-cout<<"\n\nFINDING THE GIVEN TREE IS A BST OR NOT\n";
-int ans= IsBSTorNOT(root,minroot(root),maxroot(root));
+
+    int ans= IsBSTorNOT(root,minroot(root),maxroot(root));
 
 if(ans==false){cout<<"\n\nTHE GIVEN TREE IS A BST";
 }else {
